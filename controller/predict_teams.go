@@ -1,5 +1,3 @@
-// controllers/controller.go
-
 package controllers
 
 import (

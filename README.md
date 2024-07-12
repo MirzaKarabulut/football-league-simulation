@@ -62,6 +62,13 @@ CREATE TABLE teams (
 | Man City       | 21  | 7  | 0  | 8  | 77  |
 | Barcelona      | 12  | 4  | 0  | 11 | -247|
 
+
+# Get Match Results for Week 5
+
+- **URL**: `get-match-results/:week`
+- **Method**: GET
+- **Description**: Retrieves match results for weeks.
+
 # Predict champion:
 
 - After the fourth week, send a GET request to /predict-champion-before-last-week to see predicted champions and their win probabilities.

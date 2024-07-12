@@ -56,24 +56,34 @@ func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params
     }
 
     for week := 1; week <= 5; week++ {
-        for i := 0; i < len(teams); i++ {
-            for j := i + 1; j < len(teams); j++ {
-                teamA := &teams[i]
-                teamB := &teams[j]
-                simulateMatch(teamA, teamB)
+        rand.Shuffle(len(teams), func(i, j int) { teams[i], teams[j] = teams[j], teams[i] })
+        for i := 0; i < len(teams); i += 2 {
+            teamA := &teams[i]
+            teamB := &teams[i+1]
+            scoreA, scoreB := simulateMatch(teamA, teamB)
+            err := SaveMatchResult(week, teamA.Name, teamB.Name, scoreA, scoreB)
+            if err != nil {
+                http.Error(w, err.Error(), http.StatusInternalServerError)
+                return
             }
         }
     }
 
-    // Lig tablosunu görüntüleme
     displayLeagueTable()
 
     w.WriteHeader(http.StatusOK)
 }
 
-func simulateMatch(teamA, teamB *models.Team) {
-    scoreA := rand.Intn(teamA.Power)
-    scoreB := rand.Intn(teamB.Power)
+func simulateMatch(teamA, teamB *models.Team) (int, int) {
+    maxGoals := 15 
+
+    scoreA := rand.Intn(maxGoals + 1)
+    scoreB := rand.Intn(maxGoals + 1)
+
+    for scoreA > teamA.Power || scoreB > teamB.Power {
+        scoreA = rand.Intn(maxGoals + 1)
+        scoreB = rand.Intn(maxGoals + 1)
+    }
 
     if scoreA > scoreB {
         teamA.Pts += 3
@@ -102,7 +112,11 @@ func simulateMatch(teamA, teamB *models.Team) {
     if err != nil {
         fmt.Println("Error updating teamB:", err)
     }
+
+    return scoreA, scoreB
 }
+
+
 
 func displayLeagueTable() {
     rows, err := db.DB.Query("SELECT name, pts, w, d, l, gd FROM teams ORDER BY pts DESC, gd DESC")

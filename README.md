@@ -15,6 +15,7 @@ This project simulates a football league involving four teams (Man City, Real Ma
 1. **Clone the Project Repository**
    ```bash
    git clone https://github.com/yourusername/football-league-simulation.git
+   
    cd football-league-simulation
 
 
@@ -53,7 +54,7 @@ CREATE TABLE teams (
 
 - After simulating the matches, the league table will be printed in the command line. It will display the teams, points (PTS), wins (W), draws (D), losses (L), and goal difference (GD).
 
-- League table in the commend line look like this:
+League table in the commend line look like this:
 
 | Team           | PTS | W  | D  | L  | GD  |
 |----------------|-----|----|----|----|-----|
@@ -74,7 +75,7 @@ CREATE TABLE teams (
 - After the fourth week, send a GET request to /predict-champion-before-last-week to see predicted champions and their win probabilities.
 
 
-- Before the last week (Week 4), the predicted champions and their probabilities in the command line look like this:
+Before the last week (Week 4), the predicted champions and their probabilities in the command line look like this:
 
 - **Team: Man City**
   - Win Probability: 23.33%

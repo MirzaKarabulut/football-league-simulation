@@ -13,7 +13,7 @@ import (
 func InitRoutes() *httprouter.Router {
     router := httprouter.New()
     router.POST("/init", controllers.InitTeams)
-    router.POST("/simulate", controllers.SimulateMatches)
+    router.GET("/simulate", controllers.SimulateMatches)
 		router.GET("/predict-champion-before-last-week", controllers.PredictChampionBeforeLastWeek)
     router.GET("/doc/*any", swaggerHandler)
     return router

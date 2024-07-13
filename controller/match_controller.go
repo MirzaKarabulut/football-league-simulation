@@ -51,7 +51,7 @@ func InitTeams(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // @summary Simulates the matches between the teams
 // @return *httprouter.Router
 // @tags routes
-// @router /simulate [post]
+// @router /simulate [get]
 func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     source := rand.NewSource(time.Now().UnixNano())
     rand.New(source)
@@ -96,7 +96,7 @@ func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusCreated)
+    w.WriteHeader(http.StatusOK)
 	w.Write(jsonData)
 }
 

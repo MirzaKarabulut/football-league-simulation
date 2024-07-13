@@ -7,6 +7,12 @@ import (
 	"net/http"
 )
 
+// @title Insider API
+// @version 1.0
+// @description This is a simple football league simulation API.
+// @host localhost:8080
+// @BasePath /
+
 func main() {
     db.Init()
     router := routes.InitRoutes()

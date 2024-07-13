@@ -101,12 +101,8 @@ func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 }
 
 func simulateMatch(teamA, teamB *models.Team) {
-
-	fark := teamA.Power - teamB.Power
-
-    scoreA := int(rand.Intn(10) + (fark / 100))
-    scoreB := int(rand.Intn(10) + (fark / 100))
-
+    scoreA := int(rand.Intn(10))
+    scoreB := int(rand.Intn(10))
 
     if scoreA > scoreB {
         teamA.Pts += 3

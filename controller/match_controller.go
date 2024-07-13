@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"football-league-simulation/db"
 	"football-league-simulation/models"
@@ -10,6 +11,13 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 )
+
+// IniRoutes godoc
+// @description Initializes the routes for the application
+// @summary Initializes the routes for the application
+// @return *httprouter.Router
+// @tags routes
+// @router /init [post]
 
 func InitTeams(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     teams := []models.Team{
@@ -27,11 +35,26 @@ func InitTeams(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
         }
     }
 
+    jsonData,err:= json.Marshal(teams)
+	if err != nil {
+		fmt.Println("Error marshalling predictions:", err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(http.StatusCreated)
+	w.Write(jsonData)
 }
 
+
+// SimulateMatches godoc
+// @description Simulates the matches between the teams
+// @summary Simulates the matches between the teams
+// @return *httprouter.Router
+// @tags routes
+// @router /simulate [post]
 func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    rand.Seed(time.Now().UnixNano())
+    source := rand.NewSource(time.Now().UnixNano())
+    rand.New(source)
     rows, err := db.DB.Query("SELECT id, name, power FROM teams")
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -56,34 +79,34 @@ func SimulateMatches(w http.ResponseWriter, r *http.Request, _ httprouter.Params
     }
 
     for week := 1; week <= 5; week++ {
-        rand.Shuffle(len(teams), func(i, j int) { teams[i], teams[j] = teams[j], teams[i] })
-        for i := 0; i < len(teams); i += 2 {
-            teamA := &teams[i]
-            teamB := &teams[i+1]
-            scoreA, scoreB := simulateMatch(teamA, teamB)
-            err := SaveMatchResult(week, teamA.Name, teamB.Name, scoreA, scoreB)
-            if err != nil {
-                http.Error(w, err.Error(), http.StatusInternalServerError)
-                return
+        for i := 0; i < len(teams); i++ {
+            for j := i + 1; j < len(teams); j++ {
+                teamA := &teams[i]
+                teamB := &teams[j]
+                simulateMatch(teamA, teamB)
             }
         }
     }
 
     displayLeagueTable()
 
-    w.WriteHeader(http.StatusOK)
+     jsonData,err:= json.Marshal(teams)
+	if err != nil {
+		fmt.Println("Error marshalling predictions:", err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusCreated)
+	w.Write(jsonData)
 }
 
-func simulateMatch(teamA, teamB *models.Team) (int, int) {
-    maxGoals := 15 
+func simulateMatch(teamA, teamB *models.Team) {
 
-    scoreA := rand.Intn(maxGoals + 1)
-    scoreB := rand.Intn(maxGoals + 1)
+	fark := teamA.Power - teamB.Power
 
-    for scoreA > teamA.Power || scoreB > teamB.Power {
-        scoreA = rand.Intn(maxGoals + 1)
-        scoreB = rand.Intn(maxGoals + 1)
-    }
+    scoreA := int(rand.Intn(10) + (fark / 100))
+    scoreB := int(rand.Intn(10) + (fark / 100))
+
 
     if scoreA > scoreB {
         teamA.Pts += 3
@@ -103,6 +126,8 @@ func simulateMatch(teamA, teamB *models.Team) (int, int) {
     teamA.GD += (scoreA - scoreB)
     teamB.GD += (scoreB - scoreA)
 
+	fmt.Printf("%s %d - %d %s\n", teamA.Name, scoreA, scoreB, teamB.Name)
+
     _, err := db.DB.Exec("UPDATE teams SET pts = $1, w = $2, d = $3, l = $4, gd = $5 WHERE id = $6", teamA.Pts, teamA.W, teamA.D, teamA.L, teamA.GD, teamA.ID)
     if err != nil {
         fmt.Println("Error updating teamA:", err)
@@ -112,11 +137,7 @@ func simulateMatch(teamA, teamB *models.Team) (int, int) {
     if err != nil {
         fmt.Println("Error updating teamB:", err)
     }
-
-    return scoreA, scoreB
 }
-
-
 
 func displayLeagueTable() {
     rows, err := db.DB.Query("SELECT name, pts, w, d, l, gd FROM teams ORDER BY pts DESC, gd DESC")

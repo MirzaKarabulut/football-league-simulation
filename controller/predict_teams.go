@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"football-league-simulation/db"
 	"football-league-simulation/models"
@@ -9,6 +10,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// PredictChampionBeforeLastWeek godoc
+// @description Predicts the champion before the last week
+// @summary Predicts the champion before the last week
+// @return *httprouter.Router
+// @tags routes
+// @router /predict-champion-before-last-week [get]
 func PredictChampionBeforeLastWeek(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	currentWeek := 4
 
@@ -21,6 +28,15 @@ func PredictChampionBeforeLastWeek(w http.ResponseWriter, r *http.Request, _ htt
 		fmt.Printf("Team: %s\n", prediction.TeamName)
 		fmt.Printf("Win Probability: %.2f%%\n", prediction.WinProbability)
 	}
+	jsonData,err:= json.Marshal(predictions)
+	if err != nil {
+		fmt.Println("Error marshalling predictions:", err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+
 }
 
 func fetchTeams() []*models.Team {

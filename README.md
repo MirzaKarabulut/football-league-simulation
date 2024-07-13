@@ -42,35 +42,16 @@ CREATE TABLE teams (
 - go run main.go
 
 
-# Initialize Teams
+# Initialize Teams: (/init)
 
 - To initialize the teams in the league, make a POST request to the /init endpoint. This will add the teams to the database.
 
-# Simulate Matches
+# Simulate Matches: (/simulate)
 
-- To simulate the matches and update the league table, make a POST request to the /simulate endpoint. The league table will be displayed in the command line.
-
-# View League Table
-
-- After simulating the matches, the league table will be printed in the command line. It will display the teams, points (PTS), wins (W), draws (D), losses (L), and goal difference (GD).
-
-League table in the commend line look like this:
-
-| Team           | PTS | W  | D  | L  | GD  |
-|----------------|-----|----|----|----|-----|
-| Real Madrid    | 30  | 10 | 0  | 5  | 196 |
-| Bayern Munich  | 27  | 9  | 0  | 6  | -26 |
-| Man City       | 21  | 7  | 0  | 8  | 77  |
-| Barcelona      | 12  | 4  | 0  | 11 | -247|
+- To simulate the matches and update the league table, make a POST request to the /simulate endpoint. The league table and match results will be displayed in the command line. 
 
 
-# Get Match Results for Week 5
-
-- **URL**: `get-match-results/:week`
-- **Method**: GET
-- **Description**: Retrieves match results for weeks.
-
-# Predict champion:
+# Predict champion: (/predict-champion-before-last-week)
 
 - After the fourth week, send a GET request to /predict-champion-before-last-week to see predicted champions and their win probabilities.
 
@@ -85,3 +66,8 @@ Before the last week (Week 4), the predicted champions and their probabilities i
   - Win Probability: 13.33%
 - **Team: Bayern Munich**
   - Win Probability: 30.00%
+
+
+# API Documentation- Swagger: (/docs/index.html)
+
+- GET /docs/index.html : Access the Swagger UI for API documentation.

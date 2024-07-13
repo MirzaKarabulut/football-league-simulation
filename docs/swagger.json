@@ -1,0 +1,33 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a simple football league simulation API.",
+        "title": "Insider API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/predict-champion-before-last-week": {
+            "get": {
+                "description": "Predicts the champion before the last week",
+                "tags": [
+                    "routes"
+                ],
+                "summary": "Predicts the champion before the last week",
+                "responses": {}
+            }
+        },
+        "/simulate": {
+            "post": {
+                "description": "Simulates the matches between the teams",
+                "tags": [
+                    "routes"
+                ],
+                "summary": "Simulates the matches between the teams",
+                "responses": {}
+            }
+        }
+    }
+}

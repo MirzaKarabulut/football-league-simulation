@@ -34,7 +34,7 @@ This project simulates a football league involving four teams (Man City, Real Ma
 
 # Simulate Matches: (/simulate)
 
-- To simulate the matches and update the league table, make a POST request to the /simulate endpoint. The league table and match results will be displayed in the command line. 
+- To simulate the matches and update the league table, make a GET request to the /simulate endpoint. The league table and match results will be displayed in the command line. 
 
 
 # Predict champion: (/predict-champion-before-last-week)

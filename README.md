@@ -23,20 +23,6 @@ This project simulates a football league involving four teams (Man City, Real Ma
 
 - go mod tidy
 
-
-# Create the Database and Table
-
-CREATE TABLE teams (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    power INT NOT NULL,
-    pts INT NOT NULL,
-    w INT NOT NULL,
-    d INT NOT NULL,
-    l INT NOT NULL,
-    gd INT NOT NULL
-);
-
 # Run the Application
 
 - go run main.go

@@ -71,3 +71,7 @@ Before the last week (Week 4), the predicted champions and their probabilities i
 # API Documentation- Swagger: (/docs/index.html)
 
 - GET /docs/index.html : Access the Swagger UI for API documentation.
+
+# SQL Scheme and Queries
+
+- Added SQL scheme and queries.

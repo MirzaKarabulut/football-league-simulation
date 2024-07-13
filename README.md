@@ -14,7 +14,7 @@ This project simulates a football league involving four teams (Man City, Real Ma
 
 1. **Clone the Project Repository**
    ```bash
-   git clone https://github.com/yourusername/football-league-simulation.git
+   git clone https://github.com/MirzaKarabulut/football-league-simulation.git
    
    cd football-league-simulation
 

@@ -14,7 +14,7 @@ paths:
       tags:
       - routes
   /simulate:
-    post:
+    get:
       description: Simulates the matches between the teams
       responses: {}
       summary: Simulates the matches between the teams

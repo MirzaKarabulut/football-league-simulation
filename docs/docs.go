@@ -26,7 +26,7 @@ const docTemplate = `{
             }
         },
         "/simulate": {
-            "post": {
+            "get": {
                 "description": "Simulates the matches between the teams",
                 "tags": [
                     "routes"
